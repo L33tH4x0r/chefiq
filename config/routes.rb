@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :catalogs
   resources :components
   resources :items
   resources :orders
