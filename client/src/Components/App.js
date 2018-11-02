@@ -75,89 +75,76 @@ class App extends Component {
   render() {
     const classes = this.props;
 
+    const Index = () => <h2>Home</h2>;
+    const Secondary = () => <h2>Secondary</h2>;
+
     const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        <Fragment>
+          <div className={classes.toolbar} />
+          <Divider />
+          <List>
+            <ListItem>
+              <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+              <ListItemText>
+                <Link to="/">Home</Link>
+              </ListItemText>
             </ListItem>
-          ))}
-        </List>
-      </div>
+            <ListItem>
+              <ListItemIcon>{<MailIcon />}</ListItemIcon>
+              <ListItemText>
+                <Link to="/secondary">Secondary</Link>
+              </ListItemText>
+            </ListItem>
+          </List>
+        </Fragment>
     );
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Container>
-              <Row>
-                <Col xs="1">
-                  <IconButton
-                    className={classes.menuButton, "float-left"}
-                    onClick={this.toggleDrawer(true)}
-                    color="inherit"
-                    aria-label="Menu">
-                    <MenuIcon />
-                  </IconButton>
-                </Col>
-                <Col xs="9">
-                  <Typography variant="h6" color="inherit" className={classes.grow, "text-center"}>
-                    ChefIQ
-                  </Typography>
-                </Col>
-                <Col xs="2">
-                  <Button color="inherit" className="float-right">Login</Button>
-                </Col>
-              </Row>
-            </Container>
-          </Toolbar>
-        </AppBar>
-        <SwipeableDrawer
-          open={this.state.isOpen}
-          onClose={this.toggleDrawer(false)}
-          onOpen={this.toggleDrawer(true)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
-          >
-            {drawer}
-          </div>
-        </SwipeableDrawer>
-
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
-            elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in
-            hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing.
-            Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis
-            viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo.
-            Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus
-            at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-            ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-            facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-            tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-            consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus
-            sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in.
-            In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-            et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique
-            sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo
-            viverra maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography>
-        </main>
+        <Router>
+          <Fragment>
+            <AppBar position="static">
+              <Toolbar>
+                <Container>
+                  <Row>
+                    <Col xs="1">
+                      <IconButton
+                        className={classes.menuButton, "float-left"}
+                        onClick={this.toggleDrawer(true)}
+                        color="inherit"
+                        aria-label="Menu">
+                        <MenuIcon />
+                      </IconButton>
+                    </Col>
+                    <Col xs="9">
+                      <Typography variant="h6" color="inherit" className={classes.grow, "text-center"}>
+                        ChefIQ
+                      </Typography>
+                    </Col>
+                    <Col xs="2">
+                      <Button color="inherit" className="float-right">Login</Button>
+                    </Col>
+                  </Row>
+                </Container>
+              </Toolbar>
+            </AppBar>
+            <SwipeableDrawer
+              open={this.state.isOpen}
+              onClose={this.toggleDrawer(false)}
+              onOpen={this.toggleDrawer(true)}>
+              <div
+                tabIndex={0}
+                role="button"
+                onClick={this.toggleDrawer(false)}
+                onKeyDown={this.toggleDrawer(false)}
+                >
+                {drawer}
+              </div>
+            </SwipeableDrawer>
+            <Route path="/" exact component={Index} />
+            <Route path="/secondary" component={Secondary} />
+          </Fragment>
+        </Router>
       </div>
     );
   }
