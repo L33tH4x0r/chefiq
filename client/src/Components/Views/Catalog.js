@@ -10,11 +10,14 @@ class Catalog extends Component {
   constructor () {
     super()
     this.state = {
-      catalogs: []
+      catalogs: [],
+      items: [],
     }
-  }
 
-  componentDidMount () {
+    this.fetchMenus = this.fetchMenus.bind(this);
+    this.fetchItems = this.fetchItems.bind(this);
+  }
+  fetchMenus() {
     axios.get('api/v1/catalogs')
       .then(response => {
         this.setState({catalogs: response.data});
@@ -24,8 +27,23 @@ class Catalog extends Component {
       })
   }
 
+  fetchItems() {
+    axios.get('api/v1/items')
+      .then(response => {
+        this.setState({items: response.data});
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }
+
+  componentDidMount () {
+    this.fetchMenus();
+    this.fetchItems();
+  }
+
   render () {
-    const {catalogs} = this.state;
+    const {catalogs, items} = this.state;
 
     return (
       <div className="catalogs_container">
@@ -45,7 +63,6 @@ class Catalog extends Component {
                       </CardContent>
                     </Card>
                   </Col>
-                <br />
                 </Row>
                 )}
             </Col>
@@ -53,6 +70,17 @@ class Catalog extends Component {
               <h2>
                 Items
               </h2>
+              {items.map(item =>
+                <Row>
+                <Col md='12'>
+                  <Card className='catalogCard'>
+                    <CardContent>
+                      <p>{item['name']}</p>
+                    </CardContent>
+                  </Card>
+                </Col>
+              </Row>
+              )}
             </Col>
           </Row>
         </Container>
