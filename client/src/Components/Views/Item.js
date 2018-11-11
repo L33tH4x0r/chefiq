@@ -5,19 +5,22 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import { Container, Row, Col } from 'reactstrap';
 
-class MenuCategory extends Component {
+class Item extends Component {
   constructor (props){
     super(props);
 
     this.state = {
-      categories: [],
+      itemBody: [],
+      showResults: false,
     };
   }
 
   componentDidMount (){
-    axios.get("api/v1/catalogs/" + this.props.menu)
+    axios.get("api/v1/items/" + this.props.item_id)
       .then(response => {
-        this.setState({categories: response.data});
+        this.setState({
+          categories: response.data
+        });
       })
       .catch(error => {
         console.error(error);
@@ -29,18 +32,14 @@ class MenuCategory extends Component {
 
     return (
       <Fragment>
-        {categories.map(category =>
-          <Col>
-            <Card className='categoryCard'>
-              <CardContent>
-                <p>{category['name']}</p>
-              </CardContent>
-            </Card>
-          </Col>
-        )}
+        <Card className='itemCard'>
+          <CardContent>
+            <p>{this.state.itemBody['name']}</p>
+          </CardContent>
+        </Card>
       </Fragment>
     )
   }
 }
 
-export default MenuCategory;
+export default Item;
